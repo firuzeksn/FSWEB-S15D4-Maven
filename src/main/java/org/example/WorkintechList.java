@@ -3,29 +3,24 @@ package org.example;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class WorkintechList<E extends Comparable<E>> extends ArrayList<E> {
+public class WorkintechList extends ArrayList {
 
     @Override
-    public boolean add(E e) {
-        // Tekrar eden veriyi engelle
-        if (this.contains(e)) {
-            return false;
+    public boolean add(Object object) {
+        if (!this.contains(object)) {
+            return super.add(object);
         }
-        return super.add(e);
+        return false;
     }
 
     public void sort() {
-        // Listeyi her zaman sıralı tut
         Collections.sort(this);
     }
 
     @Override
-    public boolean remove(Object o) {
-        // Eleman silindiyse listeyi otomatik sırala
-        boolean removed = super.remove(o);
-        if (removed) {
-            this.sort();
-        }
-        return removed;
+    public boolean remove(Object object) {
+        sort();
+        return super.remove(object);
     }
+
 }

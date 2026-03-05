@@ -1,52 +1,37 @@
 package org.example;
 
-import java.util.Stack;
+import java.util.LinkedList;
 
 public class Main {
 
     public static boolean checkForPalindrome(String text) {
-        if (text == null || text.trim().isEmpty()) {
-            return false;
+
+        String cleanedStr = text.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        LinkedList<Character> charList = new LinkedList<>();
+
+        for (char c : cleanedStr.toCharArray()) {
+            charList.add(c);
         }
 
-        // KRİTİK SATIRLAR BURADA ────────────────────────────────
-        String cleaned = text
-                .replaceAll("[^a-zA-Z]", "")   // boşluk, nokta, virgül, ?, !, :, vs. hepsini sil
-                .toLowerCase();
-
-        if (cleaned.isEmpty()) {
-            return false;
+        while (charList.size()>1) {
+            if(!charList.pollFirst().equals(charList.pollLast())){
+                return false;
+            }
         }
-        // ────────────────────────────────────────────────────────
-
-        Stack<Character> stack = new Stack<>();
-
-        for (char c : cleaned.toCharArray()) {
-            stack.push(c);
-        }
-
-        StringBuilder reversed = new StringBuilder();
-        while (!stack.isEmpty()) {
-            reversed.append(stack.pop());
-        }
-
-        return cleaned.equals(reversed.toString());
+        return true;
     }
 
-    // binary çevirme kısmı aynı kalabilir
     public static String convertDecimalToBinary(int decimal) {
-        if (decimal == 0) return "0";
-
-        Stack<Integer> stack = new Stack<>();
-        while (decimal > 0) {
-            stack.push(decimal % 2);
-            decimal /= 2;
+        LinkedList<Integer> binaryList = new LinkedList<>();
+        while (decimal>0){
+            int remainder = decimal % 2;
+            binaryList.addFirst(remainder);
+            decimal = decimal / 2;
         }
-
-        StringBuilder sb = new StringBuilder();
-        while (!stack.isEmpty()) {
-            sb.append(stack.pop());
-        }
-        return sb.toString();
+        StringBuilder binaryString = new StringBuilder();
+            for(int digit : binaryList){
+                binaryString.append(digit);
+            }
+        return binaryString.toString();
     }
 }
